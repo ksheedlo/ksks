@@ -3,7 +3,8 @@
 var cacheManager = require('cache-manager'),
   expect = require('chai').expect,
   ksks = require('../lib/ksks'),
-  nock = require('nock');
+  nock = require('nock'),
+  MOCK = require('./mocks');
 
 function currentServiceCatalog() {
   return {
@@ -25,7 +26,7 @@ function expiredServiceCatalog() {
   };
 }
 
-describe('ksks', function () {
+describe('ksks.authenticate', function () {
   it('gets the service catalog from the identity endpoint', function (done) {
     var scope = nock('https://identity.api.rackspacecloud.com')
       .post('/v2.0/tokens', {
@@ -157,5 +158,32 @@ describe('ksks', function () {
       expect(err).to.exist();
       done();
     });
+  });
+});
+
+describe('ksks.endpoint', function () {
+  it('gets a catalog endpoint', function () {
+    expect(ksks.endpoint(MOCK.serviceCatalog, { service: 'cloudMonitoring' }))
+      .to.equal('https://monitoring.api.rackspacecloud.com/v1.0/987654');
+  });
+
+  it('gets an endpoint with a region', function () {
+    expect(ksks.endpoint(MOCK.serviceCatalog, {
+      service: 'autoscale',
+      region: 'SYD'
+    })).to.equal('https://syd.autoscale.api.rackspacecloud.com/v1.0/987654');
+  });
+
+  it('returns undefined if there is no such service', function () {
+    expect(ksks.endpoint(MOCK.serviceCatalog, {
+      service: 'unicornLaunching'
+    })).to.be.undefined();
+  });
+
+  it('returns undefined if there is no such region', function () {
+    expect(ksks.endpoint(MOCK.serviceCatalog, {
+      service: 'cloudBackup',
+      region: 'ASGARD'
+    })).to.be.undefined();
   });
 });

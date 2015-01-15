@@ -49,3 +49,15 @@ access token and a service catalog.
 When called as a client method, this function uses the configuration that the
 client was initialized with. When called as the function on `ksks`, it uses a
 default configuration and default in-memory cache.
+
+### ksks.endpoint(catalog, props)
+
+Parses the existing catalog for a public endpoint satisfying the specified
+criteria. Criteria are specified in the `props` configuration object and may
+include:
+
+- `service` - The name of the service, e.g., `'cloudBlockStorage'`. This argument
+  is required.
+- `region` - The desired region as a 3-letter code, e.g., `'HKG'`. If not
+  specified and the requested service has more than one region, the region will
+  be chosen arbitrarily.
