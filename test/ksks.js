@@ -187,3 +187,10 @@ describe('ksks.endpoint', function () {
     })).to.be.undefined();
   });
 });
+
+describe('ksks.token', function () {
+  it('parses the auth token', function () {
+    expect(ksks.token(MOCK.serviceCatalog))
+      .to.equal('ef80cd7d70d6bd35227c64294ca3849e');
+  });
+});

@@ -61,3 +61,32 @@ include:
 - `region` - The desired region as a 3-letter code, e.g., `'HKG'`. If not
   specified and the requested service has more than one region, the region will
   be chosen arbitrarily.
+
+### ksks.token(catalog)
+
+Parses the catalog and returns the auth token.
+
+## Example
+
+```js
+ksks.authenticate({
+  username: 'test',
+  password: 'secretlol'
+}, function (err, catalog) {
+  var endpoint = ksks.endpoint(catalog, { service: 'cloudMonitoring' }),
+    token = ksks.token(catalog);
+
+  request({
+    method: 'GET',
+    uri: endpoint + '/entities',
+    json: true,
+    headers: {
+      'x-auth-token': token,
+      accept: 'application/json'
+    }
+  }, function (err, res, body) {
+    // body contains your monitoring entities
+    console.log(body);
+  });
+});
+```
