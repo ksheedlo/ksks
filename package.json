@@ -27,8 +27,9 @@
   },
   "homepage": "https://github.com/ksheedlo/ksks",
   "dependencies": {
-    "simple-keystone-client": "^1.0.0",
     "cache-manager": "^0.16.0",
+    "piggyback-buffer": "^1.0.0",
+    "simple-keystone-client": "^1.0.0",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
